@@ -15,7 +15,12 @@
 </head>
 <body>
     <script>
+        navigator.permissions.query({name:'geolocation'}).then((result) => {
+            
+        });
+
         const body = document.body
+        
         navigator.geolocation.watchPosition(position => {
             for(i in position.coords){
                 const list = document.createElement("div")
