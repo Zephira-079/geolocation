@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geolocation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const body = document.body
+        navigator.geolocation.watchPosition(position => {
+            for(i in position.coords){
+                const list = document.createElement("div")
+                list.textContent = `${i} ${position.coords[i]} \n`
+                body.appendChild(list)
+            }
+            const list = document.createElement("div")
+            list.style.cssText = `padding: 20px 0`
+            list.textContent = `<=============== new line ===============> \n`
+            body.appendChild(list)
+        })
+    
+    </script>
+</body>
+</html> 
