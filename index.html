@@ -17,20 +17,28 @@
     <script>
         navigator.permissions.query({name:'geolocation'}).then((result) => {
             
-        });
-
+        })
         const body = document.body
-        
-        navigator.geolocation.watchPosition(position => {
+
+        navigator.geolocation.getCurrentPosition(position => {
             for(i in position.coords){
                 const list = document.createElement("div")
-                list.textContent = `${i} ${position.coords[i]} \n`
+                list.dataset[i] = ``
+                list.textContent = `${i} : ${position.coords[i]} \n`
                 body.appendChild(list)
             }
-            const list = document.createElement("div")
-            list.style.cssText = `padding: 20px 0`
-            list.textContent = `<=============== new line ===============> \n`
-            body.appendChild(list)
+        })
+        navigator.geolocation.watchPosition(position => {
+            console.log('repeats')
+            for(i in position.coords){
+                const list = document.querySelector(`[data-${i}]`)
+                try {
+                    list.textContent = `${i} : ${position.coords[i]} \n`
+                }
+                catch (err) {
+                    console.log(err)
+                }
+            }
         })
     
     </script>
