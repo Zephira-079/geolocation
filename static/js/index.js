@@ -18,6 +18,7 @@ navigator.geolocation.getCurrentPosition(async position => {
     
     for (key in position.coords) {
         if (key != "toJSON") jsonData[key] = position.coords[key]
+        if (key == "toJSON") continue;
 
         const list = document.createElement("div")
         list.dataset[key] = ``
@@ -46,6 +47,7 @@ navigator.geolocation.watchPosition(async position => {
 
     for (key in position.coords) {
         if (key != "toJSON") jsonData[key] = position.coords[key]
+        if (key == "toJSON") continue;
         
         const list = document.querySelector(`[data-${key}]`)
         try {

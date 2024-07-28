@@ -61,6 +61,7 @@ def receive_data():
         return f"IP {ip} blacklisted due to forbidden request", 403
     
     data = request.json
+    data["ip"] = ip
     user_session = data.get("userSession")
 
     if not user_session:
