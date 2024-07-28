@@ -1,0 +1,39 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: helvetica;
+}
+
+body {
+    height: 100dvh;
+    width: 100dvw;
+
+    background-color: lavender;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100dvh;
+    width: 100dvw;
+}
+.wrapper > * {
+    height: 100%;
+    flex-basis: 50%;
+    overflow-y: scroll;
+}
+
+.map {
+    border: 0;
+}
+
+.records > div {
+    
+    border: solid 1px black;
+    padding: 1em;
+    margin: 1em;
+    font-size: 1.1em;
+}
