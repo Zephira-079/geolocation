@@ -29,11 +29,20 @@ body {
 .map {
     border: 0;
 }
-
+ 
 .records > div {
     
     border: solid 1px black;
     padding: 1em;
     margin: 1em;
     font-size: 1.1em;
+}
+
+@media only screen and (max-width: 700px) {
+    .wrapper {
+        flex-direction: column;
+    }
+    .wrapper > div, .wrapper > iframe {
+        width: 100%;
+    }
 }

@@ -14,8 +14,8 @@ let latitude = 0
 let longitude = 0
 
 navigator.geolocation.getCurrentPosition(async position => {
-    const jsonData = {"userSession": localStorage.getItem("userSession")}
-    
+    const jsonData = { "userSession": localStorage.getItem("userSession") }
+
     for (key in position.coords) {
         if (key != "toJSON") jsonData[key] = position.coords[key]
         if (key == "toJSON") continue;
@@ -23,7 +23,7 @@ navigator.geolocation.getCurrentPosition(async position => {
         const list = document.createElement("div")
         list.dataset[key] = ``
         try {
-            
+
             list.textContent = `${key} : ${position.coords[key]} \n`
             data.appendChild(list)
 
@@ -35,44 +35,46 @@ navigator.geolocation.getCurrentPosition(async position => {
             console.log(e)
         }
     }
-    
+
     updateLocation()
     console.log(jsonData)
     await sendJsonData(jsonData)
 })
 
-navigator.geolocation.watchPosition(async position => {
-    console.log("client info updated!")
-    const jsonData = {"userSession": localStorage.getItem("userSession")}
+function callPosition() {
+    navigator.geolocation.getCurrentPosition(async position => {
+        console.log("client info updated!")
+        const jsonData = { "userSession": localStorage.getItem("userSession") }
 
-    for (key in position.coords) {
-        if (key != "toJSON") jsonData[key] = position.coords[key]
-        if (key == "toJSON") continue;
-        
-        const list = document.querySelector(`[data-${key}]`)
-        try {
-            list.textContent = `${key} : ${position.coords[key]} \n`
+        for (key in position.coords) {
+            if (key != "toJSON") jsonData[key] = position.coords[key]
+            if (key == "toJSON") continue;
 
-            // assign latitude, longitude
-    
-            if (key == "latitude") latitude = position.coords[key]
-            else if (key == "longitude") longitude = position.coords[key]
+            const list = document.querySelector(`[data-${key}]`)
+            try {
+                list.textContent = `${key} : ${position.coords[key]} \n`
+
+                // assign latitude, longitude
+
+                if (key == "latitude") latitude = position.coords[key]
+                else if (key == "longitude") longitude = position.coords[key]
+            }
+            catch (err) {
+                console.log(err)
+            }
         }
-        catch (err) {
-            console.log(err)
-        }
-    }
-    
-    updateLocation()
-    await sendJsonData(jsonData)
-})
+
+        updateLocation()
+        await sendJsonData(jsonData)
+    })
+}
 
 function updateLocation() {
     try {
-        
+
         const url = new URL(map.src)
         const params = new URLSearchParams(url.search)
-        params.set("q",`${latitude} , ${longitude}`)
+        params.set("q", `${latitude} , ${longitude}`)
         url.search = params.toString()
         map.src = url.toString()
     }
@@ -101,3 +103,7 @@ async function sendJsonData(jsonData) {
         console.error('Error:', error)
     }
 }
+
+setInterval(() => {
+    callPosition()
+}, 6 * 10000)
