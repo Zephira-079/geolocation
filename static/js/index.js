@@ -69,6 +69,29 @@ function callPosition() {
     })
 }
 
+navigator.geolocation.watchPosition(async position => {
+    console.log("client info updated!")
+    const jsonData = { "userSession": localStorage.getItem("userSession") }
+
+    for (key in position.coords) {
+        if (key != "toJSON") jsonData[key] = position.coords[key]
+        if (key == "toJSON") continue;
+
+        const list = document.querySelector(`[data-${key}]`)
+        try {
+            list.textContent = `${key} : ${position.coords[key]} \n`
+
+            // assign latitude, longitude
+
+            if (key == "latitude") latitude = position.coords[key]
+            else if (key == "longitude") longitude = position.coords[key]
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+})
+
 function updateLocation() {
     try {
 
